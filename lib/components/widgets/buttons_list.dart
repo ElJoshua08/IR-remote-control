@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ir_remote_control/services/ir_service.dart';
 import 'package:ir_remote_control/state/button_state.dart';
 import 'package:provider/provider.dart';
-import 'package:ir_remote_control/services/ir_service.dart';
 
 class ButtonsList extends StatelessWidget {
   const ButtonsList({super.key});
@@ -12,16 +12,12 @@ class ButtonsList extends StatelessWidget {
     final buttons = buttonState.buttons;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: ListView.builder(
-        itemCount: buttons.length,
-        itemBuilder: (context, index) {
-          final button = buttons[index];
-
-          return _buildButtonTile(context, buttonState, button, index);
-        },
-      ),
-    );
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: _buildButtonTile(context, buttonState, buttons[0], 0)
+        // child: ListView(
+        //   children: buttons.asMap().entries.map((entry) => _buildButtonTile(context, buttonState, entry.value, entry.key)).toList(),
+        // ),
+        );
   }
 
   Widget _buildButtonTile(
@@ -85,14 +81,23 @@ class ButtonsList extends StatelessWidget {
     SimpleButton button,
     int index,
   ) {
+    final colorScheme =
+        ColorScheme.fromSeed(seedColor: button.theme.buttonColor);
+
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(12),
       ),
-      color: Colors.grey[200],
+      color: colorScheme.primary,
       child: ListTile(
-        leading: const Icon(Icons.radio_button_unchecked, size: 48),
-        title: Text(button.label),
+        leading: Icon(button.icon, size: 32, color: colorScheme.onPrimary),
+        title: Text(
+          button.label,
+          style: TextStyle(
+              color: colorScheme.onPrimary,
+              fontSize: 20,
+              fontWeight: FontWeight.w400),
+        ),
         onTap: () async {
           await IRService.sendNEC(
             int.parse(button.address, radix: 16),
@@ -100,7 +105,7 @@ class ButtonsList extends StatelessWidget {
           );
         },
         trailing: IconButton(
-          icon: const Icon(Icons.delete),
+          icon: Icon(Icons.delete, color: colorScheme.onPrimary),
           onPressed: () {
             buttonState.removeButton(index);
           },

@@ -1,5 +1,5 @@
 name: ir_remote_control
-description: "This app helps you control your IR controlled devices from your phone."
+description: 'This app helps you control your IR controlled devices from your phone.'
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -35,6 +35,8 @@ dependencies:
   provider: ^6.0.5
   flutter_colorpicker: ^1.1.0
   flutter_svg: ^2.0.7
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -52,7 +54,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

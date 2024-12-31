@@ -60,8 +60,6 @@ class IRService {
     // Add the end signal
     pattern.add(560);
 
-    print(pattern);
-
     return pattern;
   }
 

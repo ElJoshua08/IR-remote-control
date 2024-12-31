@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ir_remote_control/themes/app_themes.dart';
 
 // Abstract base class for all button types
 abstract class ButtonBase {
@@ -37,11 +39,15 @@ class ToggleButton extends ButtonBase {
 // Specific implementation for SimpleButton
 class SimpleButton extends ButtonBase {
   final String label;
+  final IconData? icon;
+  final CustomButtonTheme theme;
 
   SimpleButton({
     required super.address,
     required super.command,
     required this.label,
+    this.icon,
+    required this.theme,
   }) : super(
           type: 'simple',
         );
@@ -62,22 +68,42 @@ class ButtonStateDetails {
 
 // Button state manager
 class ButtonStateManager extends ChangeNotifier {
-  final List<ButtonBase> _buttons = [];
+  late final Box<dynamic> buttonsBox;
+  late final Box<dynamic> themesBox;
+  late final List<ButtonBase> _buttons;
+
+  ButtonStateManager() {
+    _initializeHive();
+  }
+
+  Future<void> _initializeHive() async {
+    // Open Hive boxes
+    buttonsBox = await Hive.openBox('buttons');
+    themesBox = await Hive.openBox('themes');
+
+    // Load buttons from the box or initialize an empty list
+    _buttons = buttonsBox.get('buttons', defaultValue: <ButtonBase>[])
+        as List<ButtonBase>;
+    notifyListeners();
+  }
 
   List<ButtonBase> get buttons => _buttons;
 
   void addButton(ButtonBase button) {
     _buttons.add(button);
+    buttonsBox.put('buttons', _buttons);
     notifyListeners();
   }
 
   void removeButton(int index) {
     _buttons.removeAt(index);
+    buttonsBox.put('buttons', _buttons);
     notifyListeners();
   }
 
   void updateButton(int index, ButtonBase newButton) {
     _buttons[index] = newButton;
+    buttonsBox.put('buttons', _buttons);
     notifyListeners();
   }
 }

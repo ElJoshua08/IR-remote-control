@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ir_remote_control/screens/add_new_button.dart';
 import 'package:ir_remote_control/state/button_state.dart'; // Import your ButtonState file
 import 'package:provider/provider.dart';
@@ -6,7 +7,10 @@ import 'package:provider/provider.dart';
 // Import pages from the pages directory
 import 'screens/home.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter(); // Initialize Hive
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => ButtonStateManager()),

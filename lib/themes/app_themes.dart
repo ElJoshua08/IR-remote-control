@@ -15,7 +15,7 @@ class CustomButtonTheme {
 class CustomButtonThemes {
   static final blueTheme = CustomButtonTheme(
     labelColor: Colors.blue.shade800,
-    iconColor: Colors.blue,
+    iconColor: const Color.fromARGB(255, 255, 255, 255),
     buttonColor: Colors.blueAccent,
   );
 
