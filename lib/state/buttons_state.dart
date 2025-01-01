@@ -1,106 +1,65 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:ir_remote_control/database/database_helper.dart';
+import 'package:ir_remote_control/models/simple_button.dart';
 
-// Abstract base class for all button types
-abstract class ButtonBase {
-  final String type;
-  final String address;
-  final String command;
-
-  ButtonBase({
-    required this.type,
-    required this.address,
-    required this.command,
-  });
-}
-
-// Specific implementation for ToggleButton
-class ToggleButton extends ButtonBase {
-  final ButtonStateDetails onState;
-  final ButtonStateDetails offState;
-  bool isOn; // Tracks the current state
-
-  ToggleButton({
-    required super.address,
-    required super.command,
-    required this.onState,
-    required this.offState,
-    this.isOn = false,
-  }) : super(
-          type: 'toggle',
-        );
-
-  void toggle() {
-    isOn = !isOn;
-  }
-}
-
-// Specific implementation for SimpleButton
-class SimpleButton extends ButtonBase {
-  final String label;
-  final IconData? icon;
-  final Color theme;
-
-  SimpleButton({
-    required super.address,
-    required super.command,
-    required this.label,
-    this.icon,
-    required this.theme,
-  }) : super(
-          type: 'simple',
-        );
-}
-
-// Common state details for buttons
-class ButtonStateDetails {
-  final String name;
-  final IconData? icon;
-  final Color? backgroundColor;
-
-  ButtonStateDetails({
-    required this.name,
-    this.icon,
-    this.backgroundColor,
-  });
-}
-
-// Button state manager
 class ButtonStateManager extends ChangeNotifier {
-  late final Box<dynamic> buttonsBox;
-  List<ButtonBase> _buttons = [];
+  final List<SimpleButton> _buttons = [];
+  final DatabaseHelper _databaseHelper = DatabaseHelper.instance;
+
+  List<SimpleButton> get buttons => _buttons;
 
   ButtonStateManager() {
-    _initializeHive();
+    _loadButtonsFromDatabase();
   }
 
-  Future<void> _initializeHive() async {
-    // Open Hive boxes
-    buttonsBox = await Hive.openBox('buttons');
+  // Load buttons from the database and populate the list
+  Future<void> _loadButtonsFromDatabase() async {
+    final buttonData = await _databaseHelper.getAllButtons();
 
-    // Load buttons from the box or initialize an empty list
-    _buttons = buttonsBox.get('buttons', defaultValue: <ButtonBase>[])
-        as List<ButtonBase>;
+    _buttons.clear();
+    for (var data in buttonData) {
+      _buttons.add(SimpleButton.fromMap(data));
+    }
     notifyListeners();
   }
 
-  List<ButtonBase> get buttons => _buttons;
+  // Add a new button to the state and database
+  Future<void> addButton(SimpleButton button) async {
+    // Insert the button into the database
+    final id = await _databaseHelper.insertButton(button.toMap());
 
-  void addButton(ButtonBase button) {
-    _buttons.add(button);
-    buttonsBox.put('buttons', _buttons);
+    // Add the button to the state and notify listeners
+    _buttons.add(SimpleButton(
+      id: id,
+      address: button.address,
+      command: button.command,
+      label: button.label,
+      theme: button.theme,
+      icon: button.icon,
+    ));
     notifyListeners();
   }
 
-  void removeButton(int index) {
+  // Update an existing button in the state and database
+  Future<void> updateButton(int index, SimpleButton updatedButton) async {
+    // Update the button in the database
+    await _databaseHelper.updateButton(
+        _buttons[index].toMap()['id'], updatedButton.toMap());
+
+    // Update the button in the state and notify listeners
+    _buttons[index] = updatedButton;
+    notifyListeners();
+  }
+
+  // Remove a button from the state and database
+  Future<void> removeButton(int index) async {
+    final button = _buttons[index];
+
+    // Delete the button from the database
+    await _databaseHelper.deleteButton(button.toMap()['id']);
+
+    // Remove the button from the state and notify listeners
     _buttons.removeAt(index);
-    buttonsBox.put('buttons', _buttons);
-    notifyListeners();
-  }
-
-  void updateButton(int index, ButtonBase newButton) {
-    _buttons[index] = newButton;
-    buttonsBox.put('buttons', _buttons);
     notifyListeners();
   }
 }

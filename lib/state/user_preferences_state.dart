@@ -1,46 +1,35 @@
-import "package:flutter/material.dart";
-import "package:hive_flutter/hive_flutter.dart";
+import 'package:flutter/material.dart';
+import 'package:ir_remote_control/database/database_helper.dart';
 
 class UserPreferencesStateManager extends ChangeNotifier {
-  Box<dynamic>?
-      userPreferencesBox; 
   Map<String, dynamic> _preferences = {};
 
   UserPreferencesStateManager() {
-    _initializeHive();
-  }
-
-  Future<void> _initializeHive() async {
-    // Open Hive box
-    userPreferencesBox = await Hive.openBox('userPreferences');
-
-    // Load preferences from the box or initialize an empty map
-    _preferences = userPreferencesBox!.get('preferences', defaultValue: {})
-        as Map<String, dynamic>;
-    notifyListeners();
+    _loadPreferences();
   }
 
   // Get all preferences
   Map<String, dynamic> get preferences => _preferences;
 
-  // Get specific preference, returns null if not found
+  // Get a specific preference, returns null if not found
   dynamic getPreference(String key) {
-    if (!_preferences.containsKey(key)) {
-      return false;
-    }
-
-    return _preferences[key];
+    return _preferences.containsKey(key) ? _preferences[key] : null;
   }
 
-  // Set specific preference
+  // Set a specific preference
   Future<void> setPreference(String key, dynamic value) async {
     _preferences[key] = value;
 
-    // Save updated preferences to Hive
-    if (userPreferencesBox != null) {
-      await userPreferencesBox!.put('preferences', _preferences);
-    }
+    // Save updated preference to SQLite
+    await DatabaseHelper.instance.setPreference(key, value);
 
+    notifyListeners();
+  }
+
+  // Load preferences from SQLite
+  void _loadPreferences() async {
+    final prefs = await DatabaseHelper.instance.getAllPreferences();
+    _preferences = prefs;
     notifyListeners();
   }
 }
