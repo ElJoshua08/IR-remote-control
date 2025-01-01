@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ir_remote_control/components/widgets/theme_picker.dart';
-import 'package:ir_remote_control/state/button_state.dart';
+import 'package:ir_remote_control/state/buttons_state.dart';
 import 'package:ir_remote_control/themes/app_themes.dart';
 import 'package:ir_remote_control/utils/icon_items.dart';
 import 'package:provider/provider.dart';
@@ -119,7 +119,6 @@ class _AddButtonState extends State<AddButton> {
                           }
                           return null;
                         },
-                        autovalidateMode: AutovalidateMode.always,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),

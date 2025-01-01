@@ -69,8 +69,7 @@ class ButtonStateDetails {
 // Button state manager
 class ButtonStateManager extends ChangeNotifier {
   late final Box<dynamic> buttonsBox;
-  late final Box<dynamic> themesBox;
-  late final List<ButtonBase> _buttons;
+  List<ButtonBase> _buttons = [];
 
   ButtonStateManager() {
     _initializeHive();
@@ -79,7 +78,6 @@ class ButtonStateManager extends ChangeNotifier {
   Future<void> _initializeHive() async {
     // Open Hive boxes
     buttonsBox = await Hive.openBox('buttons');
-    themesBox = await Hive.openBox('themes');
 
     // Load buttons from the box or initialize an empty list
     _buttons = buttonsBox.get('buttons', defaultValue: <ButtonBase>[])

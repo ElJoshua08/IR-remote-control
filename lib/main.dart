@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ir_remote_control/screens/add_new_button.dart';
-import 'package:ir_remote_control/state/button_state.dart'; // Import your ButtonState file
+import 'package:ir_remote_control/state/buttons_state.dart'; // Import your ButtonState file
+import 'package:ir_remote_control/state/user_preferences_state.dart';
 import 'package:provider/provider.dart';
 
 // Import pages from the pages directory
@@ -14,6 +15,7 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => ButtonStateManager()),
+      ChangeNotifierProvider(create: (_) => UserPreferencesStateManager()),
     ],
     child: App(),
   ));
@@ -24,12 +26,18 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userPreferences = Provider.of<UserPreferencesStateManager>(context);
+
     return MaterialApp(
       title: 'IR Remote Control',
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurple.shade700, brightness: Brightness.dark),
+          seedColor: Colors.blue.shade500,
+          brightness: userPreferences.getPreference("use-dark-mode")
+              ? Brightness.dark
+              : Brightness.light,
+        ),
       ),
       initialRoute: '/', // Default route
       routes: {

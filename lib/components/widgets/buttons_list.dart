@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ir_remote_control/services/ir_service.dart';
-import 'package:ir_remote_control/state/button_state.dart';
+import 'package:ir_remote_control/state/buttons_state.dart';
 import 'package:provider/provider.dart';
 
 class ButtonsList extends StatelessWidget {
