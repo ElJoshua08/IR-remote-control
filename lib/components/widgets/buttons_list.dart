@@ -12,12 +12,24 @@ class ButtonsList extends StatelessWidget {
     final buttons = buttonState.buttons;
 
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: _buildButtonTile(context, buttonState, buttons[0], 0)
-        // child: ListView(
-        //   children: buttons.asMap().entries.map((entry) => _buildButtonTile(context, buttonState, entry.value, entry.key)).toList(),
-        // ),
-        );
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            minHeight: 0,
+            maxHeight: double.infinity,
+          ),
+          child: Column(
+            children: buttons
+                .asMap()
+                .entries
+                .map((entry) => _buildButtonTile(
+                    context, buttonState, entry.value, entry.key))
+                .toList(),
+          ),
+        ),
+      ),
+    );
   }
 
   Widget _buildButtonTile(
@@ -82,7 +94,7 @@ class ButtonsList extends StatelessWidget {
     int index,
   ) {
     final colorScheme =
-        ColorScheme.fromSeed(seedColor: button.theme.buttonColor);
+        ColorScheme.fromSeed(seedColor: button.theme);
 
     return Card(
       shape: RoundedRectangleBorder(
@@ -99,10 +111,42 @@ class ButtonsList extends StatelessWidget {
               fontWeight: FontWeight.w400),
         ),
         onTap: () async {
-          await IRService.sendNEC(
-            int.parse(button.address, radix: 16),
-            int.parse(button.command, radix: 16),
-          );
+          try {
+            await IRService.sendNEC(
+              int.parse(button.address, radix: 16),
+              int.parse(button.command, radix: 16),
+            );
+          } catch (e) {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return Dialog(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "No IR Transmitter Found",
+                          style: TextStyle(fontSize: 20, color: Colors.red),
+                        ),
+                        SizedBox(height: 16),
+                        Text(
+                          "Please make sure that your IR transmitter is connected and powered on.",
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
+                        SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: Text('Close'),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          }
         },
         trailing: IconButton(
           icon: Icon(Icons.delete, color: colorScheme.onPrimary),

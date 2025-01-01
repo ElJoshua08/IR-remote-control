@@ -158,7 +158,6 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          Text("Here are your buttons: "),
           Padding(
             padding: const EdgeInsets.only(top: 16),
             child: ButtonsList(),

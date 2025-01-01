@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:ir_remote_control/themes/app_themes.dart';
 
 // Abstract base class for all button types
 abstract class ButtonBase {
@@ -40,7 +39,7 @@ class ToggleButton extends ButtonBase {
 class SimpleButton extends ButtonBase {
   final String label;
   final IconData? icon;
-  final CustomButtonTheme theme;
+  final Color theme;
 
   SimpleButton({
     required super.address,

@@ -21,7 +21,7 @@ class _AddButtonState extends State<AddButton> {
   // For simple button
   final _simpleNameController = TextEditingController();
   IconData? _simpleIcon;
-  CustomButtonTheme _simpleTheme = CustomButtonThemes.blueTheme;
+  Color _simpleTheme = CustomButtonThemes.blueTheme;
 
   // For toggle button states
   final _onNameController = TextEditingController();
@@ -56,7 +56,6 @@ class _AddButtonState extends State<AddButton> {
                         value: _type,
                         decoration: InputDecoration(
                           labelText: 'Type',
-                          labelStyle: TextStyle(color: Colors.blue),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12.0),
                             borderSide: BorderSide(color: Colors.blue),
@@ -98,7 +97,6 @@ class _AddButtonState extends State<AddButton> {
                         controller: _addressController,
                         decoration: InputDecoration(
                           labelText: 'Address',
-                          labelStyle: TextStyle(color: Colors.blue),
                           hintText: 'Eg. 00 or A4',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12.0),
@@ -136,7 +134,6 @@ class _AddButtonState extends State<AddButton> {
                         controller: _commandController,
                         decoration: InputDecoration(
                           labelText: 'Command',
-                          labelStyle: TextStyle(color: Colors.blue),
                           hintText: 'Eg. 40 or 28',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12.0),
@@ -186,7 +183,6 @@ class _AddButtonState extends State<AddButton> {
                                   controller: _onNameController,
                                   decoration: InputDecoration(
                                     labelText: 'Name',
-                                    labelStyle: TextStyle(color: Colors.blue),
                                     hintText: 'Enter name for ON state',
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12.0),
@@ -216,7 +212,6 @@ class _AddButtonState extends State<AddButton> {
                                   value: _onIcon,
                                   decoration: InputDecoration(
                                     labelText: 'Icon',
-                                    labelStyle: TextStyle(color: Colors.blue),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12.0),
                                       borderSide:
@@ -260,7 +255,6 @@ class _AddButtonState extends State<AddButton> {
                                   controller: _offNameController,
                                   decoration: InputDecoration(
                                     labelText: 'Name',
-                                    labelStyle: TextStyle(color: Colors.blue),
                                     hintText: 'Enter name for OFF state',
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12.0),
@@ -290,7 +284,6 @@ class _AddButtonState extends State<AddButton> {
                                   value: _offIcon,
                                   decoration: InputDecoration(
                                     labelText: 'Icon',
-                                    labelStyle: TextStyle(color: Colors.blue),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12.0),
                                       borderSide:
@@ -327,7 +320,6 @@ class _AddButtonState extends State<AddButton> {
                           controller: _simpleNameController,
                           decoration: InputDecoration(
                             labelText: 'Label',
-                            labelStyle: TextStyle(color: Colors.blue),
                             hintText: 'Eg. Power',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12.0),
@@ -364,7 +356,6 @@ class _AddButtonState extends State<AddButton> {
                           value: _simpleIcon,
                           decoration: InputDecoration(
                             labelText: 'Icon',
-                            labelStyle: TextStyle(color: Colors.blue),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12.0),
                               borderSide: BorderSide(color: Colors.blue),
@@ -399,7 +390,7 @@ class _AddButtonState extends State<AddButton> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Select the theme of the button',
+                            'Select the theme of the button, Default theme is Blue',
                             style: TextStyle(color: Colors.grey),
                           ),
                         ),

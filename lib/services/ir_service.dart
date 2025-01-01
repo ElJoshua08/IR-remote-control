@@ -9,7 +9,6 @@ class IRService {
       final bool result = await _channel.invokeMethod('isIRSupported');
       return result;
     } catch (e) {
-      print('Error checking IR support: $e');
       return false;
     }
   }
@@ -22,7 +21,9 @@ class IRService {
         'frequency': frequency,
       });
     } catch (e) {
-      print('Error sending IR signal: $e');
+      // Throw an exception if the IR transmitter is not found
+      throw PlatformException(
+          code: "no-ir", message: "No IR transmitter found");
     }
   }
 
@@ -68,7 +69,8 @@ class IRService {
       List<int> pattern = encodeNEC(address, command);
       await sendIRSignal(pattern, 38000); // NEC uses a 38kHz carrier frequency
     } catch (e) {
-      print('Error sending NEC signal: $e');
+      throw PlatformException(
+          code: "no-ir", message: "No IR transmitter found");
     }
   }
 }

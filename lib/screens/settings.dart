@@ -33,6 +33,7 @@ class SettingsScreen extends StatelessWidget {
               textStyle: TextStyle(
                 color: theme.colorScheme.onTertiaryContainer,
               ),
+              initialSelection: userPreferences.getPreference("use-dark-mode"),
               onSelected: (value) =>
                   userPreferences.setPreference("use-dark-mode", value),
               menuStyle: MenuStyle(
