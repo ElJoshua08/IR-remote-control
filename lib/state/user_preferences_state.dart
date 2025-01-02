@@ -10,6 +10,21 @@ class UserPreferencesStateManager extends ChangeNotifier {
     _loadUserPreferences();
   }
 
+  void _loadUserPreferences() async {
+    print("------ Loading user preferences ------");
+
+    final userPreferences = UserPreferencesService(objectBox).getPreferences();
+
+    print("Total user preferences loaded: ${userPreferences.length}");
+    print("User preferences");
+    for (var pref in userPreferences) {
+      print("${pref.key} = ${pref.value}");
+    }
+
+    _preferences = {for (var pref in userPreferences) pref.key: pref.value};
+    notifyListeners();
+  }
+
   // Get all preferences
   Map<String, dynamic> get preferences => _preferences;
 
@@ -28,22 +43,6 @@ class UserPreferencesStateManager extends ChangeNotifier {
     print("Total preferences: ${_preferences.length}");
     print("Current preferences: $_preferences");
 
-    notifyListeners();
-  }
-
-  void _loadUserPreferences() async {
-    print("------ Loading user preferences ------");
-
-    final userPreferences = UserPreferencesService(objectBox).getPreferences();
-
-    print("Total user preferences loaded: ${userPreferences.length}");
-    print("User preferences");
-    for (var pref in userPreferences) {
-      print("${pref.key} = ${pref.value}");
-    }
-    _preferences = {for (var pref in userPreferences) pref.key: pref.value};
-
-    // _preferences = prefs;
     notifyListeners();
   }
 }

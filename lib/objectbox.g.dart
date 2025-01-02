@@ -14,6 +14,7 @@ import 'package:objectbox/internal.dart'
 import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
+import 'models/custom_buttons.dart';
 import 'models/user_preferences.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
@@ -40,6 +41,51 @@ final _entities = <obx_int.ModelEntity>[
             name: 'value',
             type: 9,
             flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(2, 6888972494653824223),
+      name: 'CustomButton',
+      lastPropertyId: const obx_int.IdUid(8, 6951084439670185063),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 5771618847471007425),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 8664178350079704003),
+            name: 'address',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 3970110385182387186),
+            name: 'command',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 3705006111939874726),
+            name: 'label',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 6885746394348711909),
+            name: 'themeHex',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(7, 5668134743100280854),
+            name: 'iconCodePoint',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 6951084439670185063),
+            name: 'uuid',
+            type: 9,
+            flags: 2080,
+            indexId: const obx_int.IdUid(1, 1259817039568598432))
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[])
@@ -80,13 +126,13 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(1, 334938437598201252),
-      lastIndexId: const obx_int.IdUid(0, 0),
+      lastEntityId: const obx_int.IdUid(2, 6888972494653824223),
+      lastIndexId: const obx_int.IdUid(1, 1259817039568598432),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [2919581561452718789],
+      retiredPropertyUids: const [2919581561452718789, 6963700531994760790],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -122,6 +168,59 @@ obx_int.ModelDefinition getObjectBoxModel() {
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
 
           return object;
+        }),
+    CustomButton: obx_int.EntityDefinition<CustomButton>(
+        model: _entities[1],
+        toOneRelations: (CustomButton object) => [],
+        toManyRelations: (CustomButton object) => {},
+        getId: (CustomButton object) => object.id,
+        setId: (CustomButton object, int id) {
+          object.id = id;
+        },
+        objectToFB: (CustomButton object, fb.Builder fbb) {
+          final addressOffset = fbb.writeString(object.address);
+          final commandOffset = fbb.writeString(object.command);
+          final labelOffset = fbb.writeString(object.label);
+          final themeHexOffset = object.themeHex == null
+              ? null
+              : fbb.writeString(object.themeHex!);
+          final uuidOffset = fbb.writeString(object.uuid);
+          fbb.startTable(9);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(2, addressOffset);
+          fbb.addOffset(3, commandOffset);
+          fbb.addOffset(4, labelOffset);
+          fbb.addOffset(5, themeHexOffset);
+          fbb.addInt64(6, object.iconCodePoint);
+          fbb.addOffset(7, uuidOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final uuidParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 18, '');
+          final addressParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final commandParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 10, '');
+          final labelParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 12, '');
+          final themeHexParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGetNullable(buffer, rootOffset, 14);
+          final iconCodePointParam =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 16);
+          final object = CustomButton(
+              uuid: uuidParam,
+              address: addressParam,
+              command: commandParam,
+              label: labelParam,
+              themeHex: themeHexParam,
+              iconCodePoint: iconCodePointParam)
+            ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+
+          return object;
         })
   };
 
@@ -141,4 +240,35 @@ class UserPreferences_ {
   /// See [UserPreferences.value].
   static final value =
       obx.QueryStringProperty<UserPreferences>(_entities[0].properties[2]);
+}
+
+/// [CustomButton] entity fields to define ObjectBox queries.
+class CustomButton_ {
+  /// See [CustomButton.id].
+  static final id =
+      obx.QueryIntegerProperty<CustomButton>(_entities[1].properties[0]);
+
+  /// See [CustomButton.address].
+  static final address =
+      obx.QueryStringProperty<CustomButton>(_entities[1].properties[1]);
+
+  /// See [CustomButton.command].
+  static final command =
+      obx.QueryStringProperty<CustomButton>(_entities[1].properties[2]);
+
+  /// See [CustomButton.label].
+  static final label =
+      obx.QueryStringProperty<CustomButton>(_entities[1].properties[3]);
+
+  /// See [CustomButton.themeHex].
+  static final themeHex =
+      obx.QueryStringProperty<CustomButton>(_entities[1].properties[4]);
+
+  /// See [CustomButton.iconCodePoint].
+  static final iconCodePoint =
+      obx.QueryIntegerProperty<CustomButton>(_entities[1].properties[5]);
+
+  /// See [CustomButton.uuid].
+  static final uuid =
+      obx.QueryStringProperty<CustomButton>(_entities[1].properties[6]);
 }

@@ -38,6 +38,7 @@ dependencies:
   permission_handler: ^11.3.1
   objectbox: ^4.0.3
   objectbox_flutter_libs: any
+  uuid: ^4.4.2
 
 dev_dependencies:
   flutter_test:

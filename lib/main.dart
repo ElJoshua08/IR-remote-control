@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ir_remote_control/screens/add_new_button.dart';
+import 'package:ir_remote_control/state/custom_buttons_state.dart';
 import 'package:provider/provider.dart';
 
 // Import pages from the pages directory
@@ -19,7 +21,8 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        // ChangeNotifierProvider(create: (_) => ButtonStateManager()),
+        ChangeNotifierProvider(
+            create: (_) => CustomButtonsStateManager(objectBox)),
         ChangeNotifierProvider(
             create: (_) => UserPreferencesStateManager(objectBox)),
       ],
@@ -34,6 +37,8 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userPreferences = Provider.of<UserPreferencesStateManager>(context);
+    // ignore: unused_local_variable
+    final customButtons = Provider.of<CustomButtonsStateManager>(context);
 
     return MaterialApp(
       title: 'IR Remote Control',
@@ -48,7 +53,7 @@ class App extends StatelessWidget {
       initialRoute: '/', // Default route
       routes: {
         '/': (context) => const RootScreen(), // Home page
-        "/add-new-button": (context) => const /* AddButton() */ Placeholder(),
+        "/add-new-button": (context) => AddButton(),
       },
     );
   }

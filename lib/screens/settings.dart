@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ir_remote_control/state/custom_buttons_state.dart';
 import 'package:ir_remote_control/state/user_preferences_state.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +10,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final userPreferences = Provider.of<UserPreferencesStateManager>(context);
+    final customButtons = Provider.of<CustomButtonsStateManager>(context);
 
     return Scaffold(
       body: Padding(
@@ -58,7 +60,41 @@ class SettingsScreen extends StatelessWidget {
                   label: "Dark Mode",
                 ),
               ],
-            )
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: theme.colorScheme.error,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+              ),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Remove All Buttons'),
+                        content: const Text(
+                            'Are you sure you want to remove all your buttons?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              customButtons.removeButtons();
+                            },
+                            child: const Text('Reset'),
+                          ),
+                        ],
+                      );
+                    });
+              },
+              child: const Text('Remove All Buttons'),
+            ),
           ],
         ),
       ),

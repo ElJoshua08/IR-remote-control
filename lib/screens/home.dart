@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import "package:flutter_svg/flutter_svg.dart";
-// import 'package:ir_remote_control/components/widgets/buttons_list.dart';
+import 'package:ir_remote_control/components/widgets/custom_buttons_list.dart';
 import 'package:ir_remote_control/screens/settings.dart';
 import 'package:ir_remote_control/services/ir_service.dart';
+import 'package:ir_remote_control/state/custom_buttons_state.dart';
+import 'package:provider/provider.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});
@@ -71,8 +73,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    // final buttonState = Provider.of<ButtonStateManager>(context);
-    // final buttons = buttonState.buttons;
+    final buttonState = Provider.of<CustomButtonsStateManager>(context);
+    final buttons = buttonState.buttons;
 
     // First thing we need to check is if we have a compatible device
     Future<void> checkCompatibility() async {
@@ -101,82 +103,82 @@ class HomeScreen extends StatelessWidget {
     // ! Remove when ready
     // checkCompatibility();
 
-    // Here if we have no buttons, we show a different scaffold
-    // if (buttons.isEmpty) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              'assets/images/no-buttons.svg',
-              width: 256,
-              height: 256,
-            ),
-            Text(
-              "It seems like you don't have any buttons yet.",
-              style: theme.textTheme.headlineMedium
-                  ?.copyWith(fontWeight: FontWeight.w500),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, "/add-new-button"),
-              style: ButtonStyle(
-                  backgroundColor:
-                      WidgetStatePropertyAll(theme.colorScheme.primary)),
-              child: Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: "Add Your First Button",
-                      style: theme.textTheme.labelLarge?.copyWith(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: theme.colorScheme.onPrimary),
-                    ),
-                    WidgetSpan(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Icon(
-                          Icons.add,
-                          size: 24,
-                          color: theme.colorScheme.onPrimary,
-                          weight: 30,
+    //* Here if we have no buttons, we show a different scaffold
+    if (buttons.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(
+                'assets/images/no-buttons.svg',
+                width: 256,
+                height: 256,
+              ),
+              Text(
+                "It seems like you don't have any buttons yet.",
+                style: theme.textTheme.headlineMedium
+                    ?.copyWith(fontWeight: FontWeight.w500),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: () =>
+                    Navigator.pushNamed(context, "/add-new-button"),
+                style: ButtonStyle(
+                    backgroundColor:
+                        WidgetStatePropertyAll(theme.colorScheme.primary)),
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Add Your First Button",
+                        style: theme.textTheme.labelLarge?.copyWith(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: theme.colorScheme.onPrimary),
+                      ),
+                      WidgetSpan(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8.0),
+                          child: Icon(
+                            Icons.add,
+                            size: 24,
+                            color: theme.colorScheme.onPrimary,
+                            weight: 30,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
+        ),
+      );
+    }
+
+    return Scaffold(
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: ButtonsList(),
+          ),
+        ],
+      ),
+      floatingActionButton: Ink(
+        decoration: ShapeDecoration(
+            shape: CircleBorder(), color: theme.colorScheme.primary),
+        child: IconButton(
+          onPressed: () => Navigator.pushNamed(context, "/add-new-button"),
+          icon: Icon(Icons.add),
+          color: theme.colorScheme.onPrimary,
         ),
       ),
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
     );
-    // }
-
-    //   return Scaffold(
-    //     body: Column(
-    //       children: [
-    //         Padding(
-    //           padding: const EdgeInsets.only(top: 16),
-    //           child: ButtonsList(),
-    //         ),
-    //       ],
-    //     ),
-    //     floatingActionButton: Ink(
-    //       decoration: ShapeDecoration(
-    //           shape: CircleBorder(), color: theme.colorScheme.primary),
-    //       child: IconButton(
-    //         onPressed: () => Navigator.pushNamed(context, "/add-new-button"),
-    //         icon: Icon(Icons.add),
-    //         color: theme.colorScheme.onPrimary,
-    //       ),
-    //     ),
-    //     floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-    //   );
-    // }
   }
 }
