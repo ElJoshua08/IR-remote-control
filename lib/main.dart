@@ -2,27 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // Import pages from the pages directory
-import 'screens/add_new_button.dart';
+// import 'screens/add_new_button.dart';
 import 'screens/home.dart';
-
 // Import state managers
-import 'state/buttons_state.dart';
+// import 'state/buttons_state.dart';
 import 'state/user_preferences_state.dart';
+import 'store.dart';
 
-// Import SQLite Database Helper
-import 'database/database_helper.dart';
+// Load db from objectbox
+late ObjectBox objectBox;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Initialize the SQLite Database
-  await DatabaseHelper.instance.initializeDatabase();
+  objectBox = ObjectBox.create();
 
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ButtonStateManager()),
-        ChangeNotifierProvider(create: (_) => UserPreferencesStateManager()),
+        // ChangeNotifierProvider(create: (_) => ButtonStateManager()),
+        ChangeNotifierProvider(create: (_) => UserPreferencesStateManager(objectBox)),
       ],
       child: const App(),
     ),
@@ -50,7 +48,7 @@ class App extends StatelessWidget {
       initialRoute: '/', // Default route
       routes: {
         '/': (context) => const RootScreen(), // Home page
-        "/add-new-button": (context) => const AddButton(),
+        "/add-new-button": (context) => const /* AddButton() */ Placeholder(),
       },
     );
   }

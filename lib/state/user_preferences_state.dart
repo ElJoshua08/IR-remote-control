@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:ir_remote_control/database/database_helper.dart';
+import 'package:ir_remote_control/objectbox.g.dart'; // Ensure this import is correct
+import 'package:ir_remote_control/services/user_preferences_service.dart';
 
 class UserPreferencesStateManager extends ChangeNotifier {
   Map<String, dynamic> _preferences = {};
+  final UserPreferencesService _userPreferencesService;
 
-  UserPreferencesStateManager() {
-    _loadPreferences();
+  UserPreferencesStateManager(ObjectBox objectBox)
+      : _userPreferencesService = UserPreferencesService(objectBox) {
+    _loadUserPreferences();
   }
 
   // Get all preferences
@@ -19,17 +22,14 @@ class UserPreferencesStateManager extends ChangeNotifier {
   // Set a specific preference
   Future<void> setPreference(String key, dynamic value) async {
     _preferences[key] = value;
-
-    // Save updated preference to SQLite
-    await DatabaseHelper.instance.setPreference(key, value);
-
+    await _userPreferencesService.setPreference(key, value);
     notifyListeners();
   }
 
-  // Load preferences from SQLite
-  void _loadPreferences() async {
-    final prefs = await DatabaseHelper.instance.getAllPreferences();
-    _preferences = prefs;
+  // Load preferences from ObjectBox
+  void _loadUserPreferences() async {
+    final userPreferences = _userPreferencesService.getPreferences();
+    _preferences = {for (var pref in userPreferences) pref.key: pref.value};
     notifyListeners();
   }
 }
