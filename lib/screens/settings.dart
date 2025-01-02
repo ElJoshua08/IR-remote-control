@@ -33,16 +33,16 @@ class SettingsScreen extends StatelessWidget {
               textStyle: TextStyle(
                 color: theme.colorScheme.onTertiaryContainer,
               ),
-              initialSelection: userPreferences.getPreference("use-dark-mode"),
+              initialSelection: userPreferences.getPreference("theme"),
               onSelected: (value) =>
-                  userPreferences.setPreference("use-dark-mode", value),
+                  userPreferences.setPreference("theme", value),
               menuStyle: MenuStyle(
                 backgroundColor:
                     WidgetStatePropertyAll(theme.colorScheme.tertiaryContainer),
               ),
               dropdownMenuEntries: [
                 DropdownMenuEntry(
-                  value: false,
+                  value: "light",
                   leadingIcon: Icon(
                     Icons.light_mode,
                     color: theme.colorScheme.onTertiaryContainer,
@@ -50,12 +50,12 @@ class SettingsScreen extends StatelessWidget {
                   label: "Light Mode",
                 ),
                 DropdownMenuEntry(
+                  value: "dark",
                   leadingIcon: Icon(
                     Icons.dark_mode,
                     color: theme.colorScheme.onTertiaryContainer,
                   ),
                   label: "Dark Mode",
-                  value: true,
                 ),
               ],
             )

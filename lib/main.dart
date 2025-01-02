@@ -14,13 +14,14 @@ late ObjectBox objectBox;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  objectBox = ObjectBox.create();
+  objectBox = await ObjectBox.create();
 
   runApp(
     MultiProvider(
       providers: [
         // ChangeNotifierProvider(create: (_) => ButtonStateManager()),
-        ChangeNotifierProvider(create: (_) => UserPreferencesStateManager(objectBox)),
+        ChangeNotifierProvider(
+            create: (_) => UserPreferencesStateManager(objectBox)),
       ],
       child: const App(),
     ),
@@ -39,11 +40,10 @@ class App extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.blue.shade500,
-          brightness: userPreferences.getPreference("use-dark-mode") ?? false
-              ? Brightness.dark
-              : Brightness.light,
-        ),
+            seedColor: Colors.blue.shade500,
+            brightness: userPreferences.getPreference("theme") == "light"
+                ? Brightness.light
+                : Brightness.dark),
       ),
       initialRoute: '/', // Default route
       routes: {

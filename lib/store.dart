@@ -5,8 +5,8 @@ class ObjectBox {
 
   ObjectBox._create(this.store);
 
-  static ObjectBox create() {
-    final store = openStore(); // Initializes the database
+  static Future<ObjectBox> create() async {
+    final store = await openStore(); // Initializes the database
     return ObjectBox._create(store);
   }
 }

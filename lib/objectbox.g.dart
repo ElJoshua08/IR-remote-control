@@ -12,6 +12,7 @@ import 'package:flat_buffers/flat_buffers.dart' as fb;
 import 'package:objectbox/internal.dart'
     as obx_int; // generated code can access "internal" functionality
 import 'package:objectbox/objectbox.dart' as obx;
+import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'models/user_preferences.dart';
 
@@ -21,7 +22,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(1, 334938437598201252),
       name: 'UserPreferences',
-      lastPropertyId: const obx_int.IdUid(3, 2919581561452718789),
+      lastPropertyId: const obx_int.IdUid(4, 8340790945378871382),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -35,7 +36,7 @@ final _entities = <obx_int.ModelEntity>[
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 2919581561452718789),
+            id: const obx_int.IdUid(4, 8340790945378871382),
             name: 'value',
             type: 9,
             flags: 0)
@@ -55,16 +56,17 @@ final _entities = <obx_int.ModelEntity>[
 /// For Flutter apps, also calls `loadObjectBoxLibraryAndroidCompat()` from
 /// the ObjectBox Flutter library to fix loading the native ObjectBox library
 /// on Android 6 and older.
-obx.Store openStore(
+Future<obx.Store> openStore(
     {String? directory,
     int? maxDBSizeInKB,
     int? maxDataSizeInKB,
     int? fileMode,
     int? maxReaders,
     bool queriesCaseSensitiveDefault = true,
-    String? macosApplicationGroup}) {
+    String? macosApplicationGroup}) async {
+  await loadObjectBoxLibraryAndroidCompat();
   return obx.Store(getObjectBoxModel(),
-      directory: directory,
+      directory: directory ?? (await defaultStoreDirectory()).path,
       maxDBSizeInKB: maxDBSizeInKB,
       maxDataSizeInKB: maxDataSizeInKB,
       fileMode: fileMode,
@@ -84,7 +86,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredPropertyUids: const [2919581561452718789],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -102,10 +104,10 @@ obx_int.ModelDefinition getObjectBoxModel() {
         objectToFB: (UserPreferences object, fb.Builder fbb) {
           final keyOffset = fbb.writeString(object.key);
           final valueOffset = fbb.writeString(object.value);
-          fbb.startTable(4);
+          fbb.startTable(5);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, keyOffset);
-          fbb.addOffset(2, valueOffset);
+          fbb.addOffset(3, valueOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -115,7 +117,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final keyParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 6, '');
           final valueParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGet(buffer, rootOffset, 8, '');
+              .vTableGet(buffer, rootOffset, 10, '');
           final object = UserPreferences(key: keyParam, value: valueParam)
             ..id = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
 
