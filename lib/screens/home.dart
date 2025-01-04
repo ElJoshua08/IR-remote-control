@@ -39,7 +39,19 @@ class _RootScreenState extends State<RootScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_currentIndex == 0 ? 'IR Remote Control' : 'Settings'),
+        title: Row(
+          children: [
+            SvgPicture.asset(
+              "assets/images/app_icon.svg",
+              width: 48,
+              height: 48,
+              color: Colors.white,
+            ),
+            const SizedBox(width: 8),
+            const Text('Remote Control',
+                style: TextStyle(fontWeight: FontWeight.w400)),
+          ],
+        ),
         backgroundColor: theme.colorScheme.primaryContainer,
       ),
       body: IndexedStack(

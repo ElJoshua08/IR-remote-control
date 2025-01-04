@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ir_remote_control/screens/add_new_button.dart';
-import 'package:ir_remote_control/state/custom_buttons_state.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:provider/provider.dart';
 
-// Import pages from the pages directory
-// import 'screens/add_new_button.dart';
+import 'screens/add_new_button.dart';
 import 'screens/home.dart';
-// Import state managers
-// import 'state/buttons_state.dart';
+import 'state/custom_buttons_state.dart';
 import 'state/user_preferences_state.dart';
 import 'store.dart';
 
@@ -43,13 +40,16 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'IR Remote Control',
       theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.blue.shade500,
-            brightness: userPreferences.getPreference("theme") == "light"
-                ? Brightness.light
-                : Brightness.dark),
-      ),
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: colorFromHex("219EBC")!,
+              primary: colorFromHex("219EBC")!,
+              secondary: colorFromHex("023047")!,
+              brightness: userPreferences.getPreference("theme") == "light"
+                  ? Brightness.light
+                  : Brightness.dark),
+          fontFamily: 'Outfit',
+          switchTheme: SwitchThemeData()),
       initialRoute: '/', // Default route
       routes: {
         '/': (context) => const RootScreen(), // Home page
