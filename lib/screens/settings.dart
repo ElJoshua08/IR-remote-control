@@ -50,23 +50,45 @@ class SettingsScreen extends StatelessWidget {
                 showDialog(
                     context: context,
                     builder: (context) {
-                      return AlertDialog(
-                        title: const Text('Remove All Buttons'),
-                        content: const Text(
-                            'Are you sure you want to remove all your buttons?'),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            child: const Text('Cancel'),
+                      return Dialog(
+                        backgroundColor: theme.colorScheme.tertiary,
+                        alignment: Alignment.center,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            spacing: 16,
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Are you sure you want to remove all buttons?",
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.visible,
+                                style: TextStyle(
+                                    color: theme.colorScheme.onTertiary,
+                                    fontSize: 24),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      customButtons.removeButtons();
+                                    },
+                                    child: Text("Yes, remove buttons"),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text("No"),
+                                  ),
+                                ],
+                              )
+                            ],
                           ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              customButtons.removeButtons();
-                            },
-                            child: const Text('Reset'),
-                          ),
-                        ],
+                        ),
                       );
                     });
               },
