@@ -42,9 +42,10 @@ class App extends StatelessWidget {
       theme: ThemeData(
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(
-              seedColor: colorFromHex("219EBC")!,
+              seedColor: colorFromHex("8ECAE6")!,
               primary: colorFromHex("219EBC")!,
               secondary: colorFromHex("023047")!,
+              tertiary: colorFromHex("FFB703")!,
               brightness: userPreferences.getPreference("theme") == "light"
                   ? Brightness.light
                   : Brightness.dark),

@@ -230,7 +230,7 @@ class _AddButtonState extends State<AddButton> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent,
+                  backgroundColor: theme.colorScheme.primary,
                   padding: EdgeInsets.symmetric(vertical: 10),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100),

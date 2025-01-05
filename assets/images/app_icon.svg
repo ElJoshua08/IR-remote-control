@@ -20,9 +20,9 @@
    inkscape:pageopacity="0.0"
    inkscape:pagecheckerboard="0"
    inkscape:deskcolor="#d1d1d1"
-   inkscape:zoom="0.79166667"
-   inkscape:cx="540"
-   inkscape:cy="540"
+   inkscape:zoom="0.55979287"
+   inkscape:cx="88.425563"
+   inkscape:cy="461.77794"
    inkscape:window-width="1920"
    inkscape:window-height="1057"
    inkscape:window-x="1912"
@@ -34,27 +34,8 @@
 <defs
    id="defs1">
 </defs>
-<rect
-   x="0"
-   y="0"
-   width="64px"
-   height="64px"
-   fill="currentColor"
-   id="rect1" />
-<g
-   transform="matrix(1 0 0 1 540 540)"
-   id="f1572659-6801-4315-974e-da6d0986e01d">
-<rect
-   style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: rgb(255,255,255); fill-rule: nonzero; opacity: 1; visibility: hidden;"
-   vector-effect="non-scaling-stroke"
-   x="-540"
-   y="-540"
-   rx="0"
-   ry="0"
-   width="1080"
-   height="1080"
-   id="rect2" />
-</g>
+
+
 <g
    transform="matrix(1 0 0 1 540 540)"
    id="af7d9336-efaa-4dea-82d4-10ac165f24ab">

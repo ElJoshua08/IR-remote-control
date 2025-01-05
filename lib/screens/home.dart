@@ -43,9 +43,9 @@ class _RootScreenState extends State<RootScreen> {
           children: [
             SvgPicture.asset(
               "assets/images/app_icon.svg",
-              width: 48,
-              height: 48,
-              color: Colors.white,
+              width: 28,
+              height: 28,
+              colorFilter: ColorFilter.mode(theme.colorScheme.primary, BlendMode.srcIn),
             ),
             const SizedBox(width: 8),
             const Text('Remote Control',
@@ -147,18 +147,18 @@ class HomeScreen extends StatelessWidget {
                       TextSpan(
                         text: "Add Your First Button",
                         style: theme.textTheme.labelLarge?.copyWith(
-                            fontSize: 18,
+                            fontSize: 22,
                             fontWeight: FontWeight.w500,
-                            color: theme.colorScheme.onPrimary),
+                            color: theme.colorScheme.onPrimary,
+                            height: 1.5),
                       ),
                       WidgetSpan(
                         child: Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Icon(
                             Icons.add,
-                            size: 24,
                             color: theme.colorScheme.onPrimary,
-                            weight: 30,
+                            size: 24,
                           ),
                         ),
                       ),

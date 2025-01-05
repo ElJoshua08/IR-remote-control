@@ -103,8 +103,9 @@ class ButtonsList extends StatelessWidget {
                             icon: Icon(Icons.delete,
                                 color: colorScheme.onPrimary),
                             onPressed: () async {
-                              print("------- Removing button with uuid: ${button.uuid} -------");
-                              buttonState.removeButton(button.uuid!);
+                              print(
+                                  "------- Removing button with uuid: ${button.uuid} -------");
+                              buttonState.removeButton(button.uuid);
                             },
                           ),
                         ),
