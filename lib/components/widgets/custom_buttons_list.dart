@@ -5,6 +5,7 @@ import 'package:ir_remote_control/state/custom_buttons_state.dart';
 import 'package:ir_remote_control/themes/app_themes.dart';
 import 'package:ir_remote_control/utils/icon_utils.dart';
 import 'package:provider/provider.dart';
+import "package:flutter/services.dart";
 
 class ButtonsList extends StatelessWidget {
   const ButtonsList({super.key});
@@ -64,7 +65,6 @@ class ButtonsList extends StatelessWidget {
                               );
 
                               HapticFeedback.mediumImpact();
-                              
                             } catch (e) {
                               showDialog(
                                 context: context,
