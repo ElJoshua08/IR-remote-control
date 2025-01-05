@@ -112,8 +112,7 @@ class HomeScreen extends StatelessWidget {
       }
     }
 
-    // ! Remove when ready
-    // checkCompatibility();
+    checkCompatibility();
 
     //* Here if we have no buttons, we show a different scaffold
     if (buttons.isEmpty) {
