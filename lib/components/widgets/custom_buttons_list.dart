@@ -62,6 +62,9 @@ class ButtonsList extends StatelessWidget {
                                 int.parse(button.address, radix: 16),
                                 int.parse(button.command, radix: 16),
                               );
+
+                              HapticFeedback.mediumImpact();
+                              
                             } catch (e) {
                               showDialog(
                                 context: context,
@@ -103,8 +106,6 @@ class ButtonsList extends StatelessWidget {
                             icon: Icon(Icons.delete,
                                 color: colorScheme.onPrimary),
                             onPressed: () async {
-                              print(
-                                  "------- Removing button with uuid: ${button.uuid} -------");
                               buttonState.removeButton(button.uuid);
                             },
                           ),
