@@ -19,55 +19,32 @@ class SettingsScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: EdgeInsets.only(bottom: 8),
-              child: Text(
-                "Select your prefered theme",
-                style: TextStyle(
-                  color: theme.colorScheme.onSurface,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
+            Card(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Use dark mode?",
+                        style: theme.textTheme.headlineSmall),
+                    Switch(
+                      value: userPreferences.getPreference("theme") == "dark",
+                      onChanged: (value) {
+                        userPreferences.setPreference(
+                            "theme", value ? "dark" : "light");
+                      },
+                    ),
+                  ],
                 ),
               ),
-            ),
-            DropdownMenu(
-              width: double.infinity,
-              textStyle: TextStyle(
-                color: theme.colorScheme.onTertiaryContainer,
-              ),
-              initialSelection: userPreferences.getPreference("theme"),
-              onSelected: (value) =>
-                  userPreferences.setPreference("theme", value),
-              menuStyle: MenuStyle(
-                backgroundColor:
-                    WidgetStatePropertyAll(theme.colorScheme.tertiaryContainer),
-              ),
-              dropdownMenuEntries: [
-                DropdownMenuEntry(
-                  value: "light",
-                  leadingIcon: Icon(
-                    Icons.light_mode,
-                    color: theme.colorScheme.onTertiaryContainer,
-                  ),
-                  label: "Light Mode",
-                ),
-                DropdownMenuEntry(
-                  value: "dark",
-                  leadingIcon: Icon(
-                    Icons.dark_mode,
-                    color: theme.colorScheme.onTertiaryContainer,
-                  ),
-                  label: "Dark Mode",
-                ),
-              ],
             ),
             SizedBox(height: 16),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: theme.colorScheme.error,
+                backgroundColor: theme.colorScheme.tertiary,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(100))),
               ),
               onPressed: () {
                 showDialog(
@@ -93,7 +70,28 @@ class SettingsScreen extends StatelessWidget {
                       );
                     });
               },
-              child: const Text('Remove All Buttons'),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  spacing: 16,
+                  children: [
+                    Text("Remove all Buttons",
+                        style: TextStyle(
+                            color: theme.colorScheme.onTertiary, fontSize: 24)),
+                    SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: Icon(
+                        Icons.warning,
+                        color: theme.colorScheme.onTertiary,
+                        size: 24,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
